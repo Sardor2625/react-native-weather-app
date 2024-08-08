@@ -10,13 +10,29 @@ const API_KEY = "63c41566f4e1ce4f706125c778bbc69a"; // Tekshirib to'g'ri API kal
 export default function Index() {
   const [isLoading, setIsLoading] = useState(true);
   const [location, setLocation] = useState(null);
+  const [city, setCity] = useState(""); // Yangi shahar qidirish uchun state
 
-  const getWeather = async (latitude: number, longitude: number) => {
+  const getWeatherByCity = async (cityName) => {
     try {
       const { data } = await axios.get(
-        `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${API_KEY}`
+        `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${API_KEY}&units=metric`
       );
       setLocation(data);
+      setIsLoading(false);
+      console.log("Weather Data:", data); // Qo'shimcha konsol log
+    } catch (error) {
+      console.error("Weather API Error:", error); // Xatolarni qayta ishlash
+      Alert.alert("Weather API Error", "Unable to fetch weather data.");
+    }
+  };
+
+  const getWeather = async (latitude, longitude) => {
+    try {
+      const { data } = await axios.get(
+        `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${API_KEY}&units=metric`
+      );
+      setLocation(data);
+      setIsLoading(false);
       console.log("Weather Data:", data); // Qo'shimcha konsol log
     } catch (error) {
       console.error("Weather API Error:", error); // Xatolarni qayta ishlash
@@ -47,7 +63,19 @@ export default function Index() {
     getLocation();
   }, []);
 
-  return isLoading ? <Loader /> : <Weather location={location} />; // Weather komponentiga location prop qo'shing
+  return isLoading ? (
+    <Loader />
+  ) : (
+    <Weather
+      temp={Math.round(location.main.temp)}
+      name={location.name}
+      condition={location.weather[0].main}
+      onSearch={(city) => {
+        setCity(city);
+        getWeatherByCity(city); // Yangi shaharni qidirish
+      }}
+    />
+  );
 }
 
 const styles = StyleSheet.create({});
