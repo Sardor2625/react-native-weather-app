@@ -5,12 +5,12 @@ import { StyleSheet, Alert } from "react-native";
 import Loader from "../components/loader";
 import Weather from "../components/weather";
 
-const API_KEY = "63c41566f4e1ce4f706125c778bbc69a"; // Tekshirib to'g'ri API kalitni qo'ying
+const API_KEY = "63c41566f4e1ce4f706125c778bbc69a"; 
 
 export default function Index() {
   const [isLoading, setIsLoading] = useState(true);
   const [location, setLocation] = useState(null);
-  const [city, setCity] = useState(""); // Yangi shahar qidirish uchun state
+  const [city, setCity] = useState(""); 
 
   const getWeatherByCity = async (cityName) => {
     try {
@@ -19,9 +19,9 @@ export default function Index() {
       );
       setLocation(data);
       setIsLoading(false);
-      console.log("Weather Data:", data); // Qo'shimcha konsol log
+      console.log("Weather Data:", data); 
     } catch (error) {
-      console.error("Weather API Error:", error); // Xatolarni qayta ishlash
+      console.error("Weather API Error:", error); 
       Alert.alert("Weather API Error", "Unable to fetch weather data.");
     }
   };
@@ -33,9 +33,9 @@ export default function Index() {
       );
       setLocation(data);
       setIsLoading(false);
-      console.log("Weather Data:", data); // Qo'shimcha konsol log
+      console.log("Weather Data:", data); 
     } catch (error) {
-      console.error("Weather API Error:", error); // Xatolarni qayta ishlash
+      console.error("Weather API Error:", error); 
       Alert.alert("Weather API Error", "Unable to fetch weather data.");
     }
   };
@@ -52,7 +52,7 @@ export default function Index() {
         coords: { latitude, longitude },
       } = await Location.getCurrentPositionAsync({});
       console.log("Coordinates:", latitude, longitude);
-      await getWeather(latitude, longitude); // Asinxron chaqirishni kuting
+      await getWeather(latitude, longitude); 
     } catch (error) {
       console.error("Location Error:", error);
       Alert.alert("Location Error", "Unable to fetch your current location.");
@@ -72,7 +72,7 @@ export default function Index() {
       condition={location.weather[0].main}
       onSearch={(city) => {
         setCity(city);
-        getWeatherByCity(city); // Yangi shaharni qidirish
+        getWeatherByCity(city); 
       }}
     />
   );
