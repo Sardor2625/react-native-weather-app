@@ -1,9 +1,6 @@
-import { Stack } from "expo-router";
+import React from 'react';
+import AppNavigator from '../app/index';
 
-export default function RootLayout() {
-  return (
-    <Stack>
-      <Stack.Screen name="index" />
-    </Stack>
-  );
+export default function App() {
+    return <AppNavigator />;
 }
